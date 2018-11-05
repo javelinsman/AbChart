@@ -41,6 +41,7 @@ let barchart_spec = {
         }
     ],
     "meta": {
+        "title": "Proportion of bloodtype in Korea, Japan, and China",
         "x_title": "Country",
         "y_title": "Proportion",
         "colors": {
@@ -68,8 +69,8 @@ function react_on_hover(selection){
 
 function render(spec){
     let svg_width = 700,
-        svg_height = 500,
-        margin = {top: 50, left: 50, right: 250, bottom: 50},
+        svg_height = 550,
+        margin = {top: 100, left: 50, right: 250, bottom: 50},
         width = svg_width - margin.left - margin.right,
         height = svg_height - margin.top - margin.bottom
 
@@ -87,6 +88,13 @@ function render(spec){
         }
         else return d.bar.value
     })
+
+    let title = svg.append("text")
+        .attr("transform", translate(svg_width / 2, 50))
+        .style("text-anchor", "middle")
+        .style("font-size", "150%")
+        .style("font-weight", "bold")
+        .text(spec.meta.title)
 
     let x = d3.scaleBand().domain(spec.marks.map(d => d.key)).range([0, width]).padding(0.1)
     let y = d3.scaleLinear().domain([0, d3.max(bar_heights)]).range([height, 0])
