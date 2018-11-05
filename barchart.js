@@ -70,7 +70,7 @@ function react_on_hover(selection){
 function render(spec){
     let svg_width = 700,
         svg_height = 550,
-        margin = {top: 100, left: 50, right: 250, bottom: 50},
+        margin = {top: 100, left: 70, right: 250, bottom: 70},
         width = svg_width - margin.left - margin.right,
         height = svg_height - margin.top - margin.bottom
 
