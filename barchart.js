@@ -59,6 +59,12 @@ function make_offset(stack){
     })
 }
 
+function react_on_hover(selection){
+    selection
+        .on("mouseover", function(){ d3.select(this).classed("focused", true) })
+        .on("mouseout", function(){ d3.select(this).classed("focused", false) })
+}
+
 function render(spec){
     let svg_width = 500,
         svg_height = 500,
@@ -81,9 +87,21 @@ function render(spec){
     let x_axis = d3.axisBottom(x)
     let y_axis = d3.axisLeft(y)
     svg.append("g").attr("transform", translate(margin, margin + height)).call(x_axis)
+        .selectAll(".tick").call(react_on_hover)
     svg.append("g").attr("transform", translate(margin, margin)).call(y_axis)
+        .selectAll(".tick").call(react_on_hover)
 
-    let x_label = svg.append("text").attr("transform", translate(svg_width / 2, margin + height + 2 * margin / 3)).style("text-anchor", "middle").text(spec.meta.x_title)
+    let x_title = svg.append("text")
+        .attr("transform", translate(svg_width / 2, margin + height + 2 * margin / 3))
+        .style("text-anchor", "middle")
+        .text(spec.meta.x_title)
+        .call(react_on_hover)
+
+    let y_title = svg.append("text")
+        .attr("transform", translate(margin / 2, svg_height / 2) + " rotate(-90)")
+        .style("text-anchor", "middle")
+        .text(spec.meta.y_title)
+        .call(react_on_hover)
 
     let bars = view.selectAll("g").data(spec.marks)
     let stacks = bars.enter().append("g")
@@ -96,8 +114,7 @@ function render(spec){
         return translate(0, y(d.offset + d.value))
     })
     .style("fill", d => d.color)
-    .on("mouseover", function(){ d3.select(this).classed("focused", true) })
-    .on("mouseout", function(){ d3.select(this).classed("focused", false) })
+    .call(react_on_hover)
 }
 
 render(barchart_spec)
