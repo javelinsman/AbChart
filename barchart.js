@@ -95,6 +95,7 @@ function render(spec){
         .style("font-size", "150%")
         .style("font-weight", "bold")
         .text(spec.meta.title)
+        .call(react_on_hover)
 
     let x = d3.scaleBand().domain(spec.marks.map(d => d.key)).range([0, width]).padding(0.1)
     let y = d3.scaleLinear().domain([0, d3.max(bar_heights)]).range([height, 0])
