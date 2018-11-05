@@ -9,11 +9,6 @@ function translate(x, y){
 
 */
 
-let color_AB = "rgb(235, 160, 212)",
-    color_A = "rgb(99, 160, 203)",
-    color_B = "rgb(128, 128, 128)",
-    color_O = "rgb(188, 131, 196)"
-
 let barchart_spec = {
     //"orientation": "horizontal",
     "marks": [
@@ -21,33 +16,39 @@ let barchart_spec = {
             "type": "stacked_bar",
             "key": "Korea",
             "stacks": [
-                {"value": 3, "color": color_A},
-                {"value": 5, "color": color_B},
-                {"value": 2, "color": color_O},
-                {"value": 6, "color": color_AB}
+                {"value": 3, "color": "red"},
+                {"value": 5, "color": {"name": "B"}},
+                {"value": 2, "color": {"name": "O"}},
+                {"value": 6, "color": {"name": "AB"}}
             ]
         },
         {
             "type": "stacked_bar",
             "key": "Japan",
             "stacks": [
-                {"value": 5, "color": color_A},
-                {"value": 6, "color": color_O},
-                {"value": 7, "color": color_AB}
+                {"value": 5, "color": {"name": "A"}},
+                {"value": 6, "color": {"name": "O"}},
+                {"value": 7, "color": {"name": "AB"}},
             ]
         },
         {
             "type": "stacked_bar",
             "key": "China",
             "stacks": [
-                {"value": 3, "color": color_B},
-                {"value": 2, "color": color_AB},
+                {"value": 3, "color": {"name": "B"}},
+                {"value": 2, "color": {"name": "AB"}},
             ]
         }
     ],
     "meta": {
         "x_title": "Country",
-        "y_title": "Proportion"
+        "y_title": "Proportion",
+        "colors": {
+            "A": "rgb(99, 160, 203)",
+            "B": "rgb(128, 128, 128)",
+            "O": "rgb(188, 131, 196)",
+            "AB": "rgb(235, 160, 212)"
+        }
     }
 }
 
@@ -66,14 +67,19 @@ function react_on_hover(selection){
 }
 
 function render(spec){
-    let svg_width = 500,
+    let svg_width = 700,
         svg_height = 500,
-        margin = 50,
-        width = svg_width - 2 * margin,
-        height = svg_height - 2 * margin
+        margin = {top: 50, left: 50, right: 250, bottom: 50},
+        width = svg_width - margin.left - margin.right,
+        height = svg_height - margin.top - margin.bottom
 
     let svg = d3.select("#barchart").attr("width", svg_width).attr("height", svg_height)
-    let view = svg.append("g").attr("transform", translate(margin, margin))
+
+    let view_background = svg.append("rect").attr("transform", translate(margin.left, margin.top))
+        .attr("width", width).attr("height", height)
+        .style("fill", "rgb(230, 230, 230)")
+
+    let view = svg.append("g").attr("transform", translate(margin.left, margin.top))
 
     let bar_heights = spec.marks.map(d => {
         if(d.type === "stacked_bar"){
@@ -86,19 +92,19 @@ function render(spec){
     let y = d3.scaleLinear().domain([0, d3.max(bar_heights)]).range([height, 0])
     let x_axis = d3.axisBottom(x)
     let y_axis = d3.axisLeft(y)
-    svg.append("g").attr("transform", translate(margin, margin + height)).call(x_axis)
+    svg.append("g").attr("transform", translate(margin.left, margin.top + height)).call(x_axis)
         .selectAll(".tick").call(react_on_hover)
-    svg.append("g").attr("transform", translate(margin, margin)).call(y_axis)
+    svg.append("g").attr("transform", translate(margin.left, margin.top)).call(y_axis)
         .selectAll(".tick").call(react_on_hover)
 
     let x_title = svg.append("text")
-        .attr("transform", translate(svg_width / 2, margin + height + 2 * margin / 3))
+        .attr("transform", translate(svg_width / 2, margin.top + height + 2 * margin.bottom / 3))
         .style("text-anchor", "middle")
         .text(spec.meta.x_title)
         .call(react_on_hover)
 
     let y_title = svg.append("text")
-        .attr("transform", translate(margin / 2, svg_height / 2) + " rotate(-90)")
+        .attr("transform", translate(margin.left / 2, svg_height / 2) + " rotate(-90)")
         .style("text-anchor", "middle")
         .text(spec.meta.y_title)
         .call(react_on_hover)
@@ -113,8 +119,24 @@ function render(spec){
     .attr("transform", (d, i) => {
         return translate(0, y(d.offset + d.value))
     })
-    .style("fill", d => d.color)
+    .style("fill", d => d.color.name ? spec.meta.colors[d.color.name] : d.color)
     .call(react_on_hover)
+
+    let legend = svg.append("g")
+        .attr("transform", translate(margin.left + width + 50, margin.top))
+    let legend_items = legend.selectAll("g").data(Object.entries(spec.meta.colors), d=>d[0])
+        .enter().append("g")
+            .attr("transform", (d, i) => translate(0, 50 * i))
+            .call(react_on_hover)
+    legend_items
+        .append("rect")
+            .attr("width", 30).attr("height", 30)
+            .style("fill", d => d[1])
+    legend_items
+        .append("text")
+            .attr("transform", translate(50, 15))
+            .attr("height", 30)
+            .text(d => d[0])
 }
 
 render(barchart_spec)
