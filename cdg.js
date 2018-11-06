@@ -73,13 +73,13 @@ function flatten(node, indent=0, result=[]){
         attrs[d.name] =  d.value
     })
     let [opentag, closetag] = tag_string(node.tagName, attrs)
-    let stringified = ".".repeat(indent) + opentag + closetag
+    let stringified = ".".repeat(indent) + opentag
     result.push({
         "node": node,
         "text": stringified
     })
     for(let child of node.children){
-        flatten(child, indent + 4, result)
+        flatten(child, indent + 8, result)
     }
     return result
 }
