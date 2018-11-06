@@ -2,8 +2,6 @@ let convert_button = d3.select("body").append("div").append("button")
     .text("Convert to CDG")
     .on("click", convert)
 
-let cdg_area = d3.select("body").append("div")
-
 function convert(){
     let spec = barchart_spec
     let chart = d3.select("#barchart")
@@ -55,4 +53,38 @@ function DOMstring(selection){
     return div.innerHTML
 }
 
-convert().each(function(){console.log(this)})
+function tag_string(tag_name, attributes, properties){
+    segments = []
+    segments.push(tag_name)
+    if(attributes) for(let [key, value] of Object.entries(attributes)){
+        segments.push(key + "=\"" + value + "\"")
+    }
+    if(properties) for(let prop of properties){
+        segments.push(prop)
+    }
+    let cap = (s) => ("<" + s + ">")
+    return [cap(segments.join(" ")), cap("/" + tag_name)]
+}
+
+let cdg_area = d3.select("body").append("div")
+function flatten(node, indent=0, result=[]){
+    let attrs = {}
+    Object.values(node.attributes).forEach(d => {
+        attrs[d.name] =  d.value
+    })
+    let [opentag, closetag] = tag_string(node.tagName, attrs)
+    let stringified = ".".repeat(indent) + opentag + closetag
+    result.push({
+        "node": node,
+        "text": stringified
+    })
+    for(let child of node.children){
+        flatten(child, indent + 4, result)
+    }
+    return result
+}
+
+let cdg = convert().node()
+let flattened = flatten(cdg)
+console.log(flattened)
+flattened.forEach(d => cdg_area.append("div").text(d.text))
