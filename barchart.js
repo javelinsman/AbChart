@@ -101,9 +101,11 @@ function render(spec){
     let y = d3.scaleLinear().domain([0, d3.max(bar_heights)]).range([height, 0])
     let x_axis = d3.axisBottom(x)
     let y_axis = d3.axisLeft(y)
-    svg.append("g").attr("transform", translate(margin.left, margin.top + height)).call(x_axis)
+    svg.append("g").attr("id", "x-axis")
+        .attr("transform", translate(margin.left, margin.top + height)).call(x_axis)
         .selectAll(".tick").call(react_on_hover)
-    svg.append("g").attr("transform", translate(margin.left, margin.top)).call(y_axis)
+    svg.append("g").attr("id", "y-axis")
+        .attr("transform", translate(margin.left, margin.top)).call(y_axis)
         .selectAll(".tick").call(react_on_hover)
 
     let x_title = svg.append("text")
