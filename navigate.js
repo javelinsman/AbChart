@@ -1,11 +1,11 @@
 function addNavigator(cdg, cdg_area){
 
     let pointers = {
-        guides: cdg.children[0],
-        meta: cdg.children[1],
-        marks: cdg.children[2],
-        axes: cdg.children[3],
-        insights: cdg.children[4]
+        guides: cdg.children[0].children[0],
+        meta: cdg.children[1].children[0],
+        marks: cdg.children[2].children[0],
+        axes: cdg.children[3].children[0],
+        insights: cdg.children[4].children[0]
     }
     let current = "guides"
 
