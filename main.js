@@ -1,41 +1,49 @@
 let spec = {
     "meta": {
-        "title": "Proportion of bloodtype in Korea, Japan, and China",
-        "x_title": "Country",
-        "y_title": "Proportion",
+        "title": "공동주택 공시가격 이의신청 추이",
+        "x_title": "연도",
+        "y_title": "호",
         "colors": {
-            "A": "rgb(99, 160, 203)",
-            "B": "rgb(128, 128, 128)",
-            "O": "rgb(188, 131, 196)",
-            "AB": "rgb(235, 160, 212)"
+            "아파트": "rgb(7, 109, 158)",
+            "연립주택": "rgb(173, 210, 239)",
+            "다세대": "rgb(68, 157, 191)",
         }
     },
     "marks": [
         {
             "type": "stacked_bar",
-            "key": "Korea",
+            "key": "2015년",
             "stacks": [
-                {"value": 3, "color": "red"},
-                {"value": 5, "color": {"name": "B"}},
-                {"value": 2, "color": {"name": "O"}},
-                {"value": 6, "color": {"name": "AB"}}
+                {"value": 230, "color": {"name": "아파트"}},
+                {"value": 31, "color": {"name": "연립주택"}},
+                {"value": 90, "color": {"name": "다세대"}}
             ]
         },
         {
             "type": "stacked_bar",
-            "key": "Japan",
+            "key": "2016년",
             "stacks": [
-                {"value": 5, "color": {"name": "A"}},
-                {"value": 6, "color": {"name": "O"}},
-                {"value": 7, "color": {"name": "AB"}}
+                {"value": 159, "color": {"name": "아파트"}},
+                {"value": 23, "color": {"name": "연립주택"}},
+                {"value": 57, "color": {"name": "다세대"}}
             ]
         },
         {
             "type": "stacked_bar",
-            "key": "China",
+            "key": "2017년",
             "stacks": [
-                {"value": 3, "color": {"name": "B"}},
-                {"value": 2, "color": {"name": "AB"}}
+                {"value": 265, "color": {"name": "아파트"}},
+                {"value": 55, "color": {"name": "연립주택"}},
+                {"value": 98, "color": {"name": "다세대"}}
+            ]
+        },
+        {
+            "type": "stacked_bar",
+            "key": "2018년",
+            "stacks": [
+                {"value": 737, "color": "rgb(228, 188, 103)"},
+                {"value": 116, "color": {"name": "연립주택"}},
+                {"value": 264, "color": {"name": "다세대"}}
             ]
         }
     ]
