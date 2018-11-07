@@ -1,4 +1,15 @@
 let spec = {
+    "meta": {
+        "title": "Proportion of bloodtype in Korea, Japan, and China",
+        "x_title": "Country",
+        "y_title": "Proportion",
+        "colors": {
+            "A": "rgb(99, 160, 203)",
+            "B": "rgb(128, 128, 128)",
+            "O": "rgb(188, 131, 196)",
+            "AB": "rgb(235, 160, 212)"
+        }
+    },
     "marks": [
         {
             "type": "stacked_bar",
@@ -27,18 +38,7 @@ let spec = {
                 {"value": 2, "color": {"name": "AB"}}
             ]
         }
-    ],
-    "meta": {
-        "title": "Proportion of bloodtype in Korea, Japan, and China",
-        "x_title": "Country",
-        "y_title": "Proportion",
-        "colors": {
-            "A": "rgb(99, 160, 203)",
-            "B": "rgb(128, 128, 128)",
-            "O": "rgb(188, 131, 196)",
-            "AB": "rgb(235, 160, 212)"
-        }
-    }
+    ]
 }
 
 let spec_area = d3.select("#spec")

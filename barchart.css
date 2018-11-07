@@ -9,6 +9,10 @@ svg {
     border: solid 1px black;
 }
 
+.flex_horizontal{
+    display: flex;
+}
+
 .focused {
     stroke: black;
     stroke-width: 2px;
@@ -16,6 +20,11 @@ svg {
 
 graph {
     color: white;
+}
+
+#cdg_area {
+    padding: 30px;
+    font-size: 15px;
 }
 
 .selected_guide{
@@ -35,4 +44,10 @@ graph {
 }
 .current_pointer{
     font-weight: bold;
+}
+
+#help{
+    width: 30%;
+    border: 1px solid black;
+    margin: 20px;
 }
