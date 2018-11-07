@@ -9,50 +9,6 @@ function translate(x, y){
 
 */
 
-let barchart_spec = {
-    //"orientation": "horizontal",
-    "marks": [
-        {
-            "type": "stacked_bar",
-            "key": "Korea",
-            "stacks": [
-                {"value": 3, "color": "red"},
-                {"value": 5, "color": {"name": "B"}},
-                {"value": 2, "color": {"name": "O"}},
-                {"value": 6, "color": {"name": "AB"}}
-            ]
-        },
-        {
-            "type": "stacked_bar",
-            "key": "Japan",
-            "stacks": [
-                {"value": 5, "color": {"name": "A"}},
-                {"value": 6, "color": {"name": "O"}},
-                {"value": 7, "color": {"name": "AB"}},
-            ]
-        },
-        {
-            "type": "stacked_bar",
-            "key": "China",
-            "stacks": [
-                {"value": 3, "color": {"name": "B"}},
-                {"value": 2, "color": {"name": "AB"}},
-            ]
-        }
-    ],
-    "meta": {
-        "title": "Proportion of bloodtype in Korea, Japan, and China",
-        "x_title": "Country",
-        "y_title": "Proportion",
-        "colors": {
-            "A": "rgb(99, 160, 203)",
-            "B": "rgb(128, 128, 128)",
-            "O": "rgb(188, 131, 196)",
-            "AB": "rgb(235, 160, 212)"
-        }
-    }
-}
-
 function make_offset(stack){
     return stack.map((d, i, a) => {
         if(i == 0) d.offset = 0
@@ -75,6 +31,7 @@ function render(spec){
         height = svg_height - margin.top - margin.bottom
 
     let svg = d3.select("#barchart").attr("width", svg_width).attr("height", svg_height)
+    svg.selectAll("*").remove()
 
     let view_background = svg.append("rect").attr("transform", translate(margin.left, margin.top))
         .attr("width", width).attr("height", height)
@@ -149,5 +106,3 @@ function render(spec){
             .attr("height", 30)
             .text(d => d[0])
 }
-
-render(barchart_spec)

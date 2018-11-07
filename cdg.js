@@ -1,8 +1,8 @@
-function convert(){
-    let spec = barchart_spec
+function convert(spec){
     let chart = d3.select("#barchart")
 
-    let cdg = d3.select("body").append('graph')
+    d3.select("#cdg_temp").selectAll("*").remove()
+    let cdg = d3.select("#cdg_temp").append('graph')
     /* Guides */
     let guides = cdg.append("guides")
     guides.append("guide").text("차트입니다. 더 알아보시려면 S를, 사용법에 대해 알고 싶으면 G를 눌러주세요.")
@@ -74,7 +74,6 @@ function tag_string(tag_name, attributes, properties){
     return [cap(segments.join(" ")), cap("/" + tag_name)]
 }
 
-let cdg_area = d3.select("body").append("div")
 function flatten(node, indent=0, result=[]){
     let attrs = {}
     Object.values(node.attributes).forEach(d => {
@@ -92,8 +91,12 @@ function flatten(node, indent=0, result=[]){
     return result
 }
 
-let cdg = convert().node()
-let flattened = flatten(cdg)
-flattened.forEach(d => {
-    d.node.vis = cdg_area.append("div").text(d.text)
-})
+function draw_cdg(spec, cdg_area){
+    cdg_area.selectAll("*").remove()
+    let cdg = convert(spec).node()
+    let flattened = flatten(cdg)
+    flattened.forEach(d => {
+        d.node.vis = cdg_area.append("div").text(d.text)
+    })
+    return cdg
+}
