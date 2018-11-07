@@ -1,12 +1,13 @@
-let convert_button = d3.select("body").append("div").append("button")
-    .text("Convert to CDG")
-    .on("click", convert)
-
 function convert(){
     let spec = barchart_spec
     let chart = d3.select("#barchart")
 
     let cdg = d3.select("body").append('graph')
+    /* Guides */
+    let guides = cdg.append("guides")
+    guides.append("guide").text("차트입니다. 더 알아보시려면 S를, 사용법에 대해 알고 싶으면 G를 눌러주세요.")
+    guides.append("guide").text("키보드를 눌러 차트를 탐색하실 수 있습니다. S를 누르면...")
+
     /* Meta */
     let meta = cdg.append("meta")
     let title = meta.append("title").text(spec.meta.title)
@@ -44,6 +45,13 @@ function convert(){
         y.append("tick")
             .attr("value", d3.select(this).select("text").text())
     })
+
+    /* Insights */
+    let insights = cdg.append("insights")
+    let annotation = insights.append("annotation")
+    annotation.append("highlight").attr("mark_id", 5).attr("type", "style")
+    insights.append("notables")
+
     return cdg
 }
 
@@ -86,5 +94,6 @@ function flatten(node, indent=0, result=[]){
 
 let cdg = convert().node()
 let flattened = flatten(cdg)
-console.log(flattened)
-flattened.forEach(d => cdg_area.append("div").text(d.text))
+flattened.forEach(d => {
+    d.node.vis = cdg_area.append("div").text(d.text)
+})

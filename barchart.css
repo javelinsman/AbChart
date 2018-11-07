@@ -6,3 +6,26 @@ svg {
     stroke: black;
     stroke-width: 2px;
 }
+
+graph {
+    color: white;
+}
+
+.selected_guide{
+    color: brown;
+}
+.selected_meta{
+    color: green;
+}
+.selected_marks{
+    color: blue;
+}
+.selected_axes{
+    color: orange;
+}
+.selected_insights{
+    color: purple;
+}
+.current_pointer{
+    font-weight: bold;
+}
