@@ -77,7 +77,26 @@ function render(spec){
         .text(spec.meta.y_title)
         .call(react_on_hover)
 
-    let bars = view.selectAll("g").data(spec.marks)
+    if(["horizontal", "grid"].indexOf(spec.meta.gridline) >= 0){
+        view.append("g")			
+            .attr("class", "grid")
+            .call(y_axis
+                .tickSize(-width)
+                .tickFormat("")
+            )
+    }
+
+    if(["vertical", "grid"].indexOf(spec.meta.gridline) >= 0){
+        view.append("g")			
+            .attr("class", "grid")
+            .attr("transform", "translate(" + (x.bandwidth() / (1 - x.padding()) / 2) + "," + height + ")")
+            .call(x_axis
+                .tickSize(-height)
+                .tickFormat("")
+            )
+    }
+
+    let bars = view.append("g").selectAll("g").data(spec.marks)
     let stacks = bars.enter().append("g")
             .attr("transform", d => translate(x(d.key), 0))
         .selectAll("rect").data(d => d.type === "bar" ? make_offset([d.bar]) : make_offset(d.stacks))
@@ -107,4 +126,5 @@ function render(spec){
                 .attr("height", 30)
                 .text(d => d[0])
     }
+
 }

@@ -53,7 +53,8 @@ let simple1 = {
     "meta": {
         "title": "Cars sold in January",
         "x_title": "",
-        "y_title": "Number of Cars Sold"
+        "y_title": "Number of Cars Sold",
+        "gridline": "horizontal",
     },
     "marks": [
         {

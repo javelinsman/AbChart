@@ -1,17 +1,14 @@
 function addNavigator(cdg, cdg_area){
 
     let pointers = {
-        guides: cdg.children[0].children[0],
-        meta: cdg.children[1].children[0],
-        marks: cdg.children[2].children[0],
-        axes: cdg.children[3].children[0],
-        insights: cdg.children[4].children[0]
+        meta: cdg.children[0].children[0],
+        marks: cdg.children[1].children[0],
+        axes: cdg.children[2].children[0],
+        insights: cdg.children[3].children[0]
     }
-    let current = "guides"
+    let current = "meta"
 
     function update(){
-        cdg_area.selectAll("*").classed("selected_guide", false)
-        pointers.guides.vis.classed("selected_guide", true)
         cdg_area.selectAll("*").classed("selected_meta", false)
         pointers.meta.vis.classed("selected_meta", true)
         cdg_area.selectAll("*").classed("selected_marks", false)
