@@ -1,4 +1,4 @@
-let spec0 = {
+let stacked1 = {
     "meta": {
         "title": "공동주택 공시가격 이의신청 추이",
         "x_title": "연도",
@@ -49,4 +49,48 @@ let spec0 = {
     ]
 }
 
-let example_specs = [spec0]
+let simple1 = {
+    "meta": {
+        "title": "Cars sold in January",
+        "x_title": "",
+        "y_title": "Number of Cars Sold"
+    },
+    "marks": [
+        {
+            "type": "bar",
+            "key": "BMW",
+            "bar": {"value": 40, "color": "blue"}
+        },
+        {
+            "type": "bar",
+            "key": "Buick",
+            "bar": {"value": 25, "color": "purple"}
+        },
+        {
+            "type": "bar",
+            "key": "Toyota",
+            "bar": {"value": 35, "color": "magenta"}
+        },
+        {
+            "type": "bar",
+            "key": "Honda",
+            "bar": {"value": 50, "color": "green"}
+        },
+        {
+            "type": "bar",
+            "key": "Mercedes",
+            "bar": {"value": 15, "color": "yellow"}
+        },
+        {
+            "type": "bar",
+            "key": "Kia",
+            "bar": {"value": 20, "color": "orange"}
+        }
+    ]
+}
+
+
+let example_specs = [
+    {name: 'simple1', spec: simple1},
+    {name: 'stacked1', spec: stacked1},
+]

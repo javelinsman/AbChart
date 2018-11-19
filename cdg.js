@@ -14,13 +14,15 @@ function convert(spec){
     let title = meta.append("title").attr("value", spec.meta.title).text("차트 제목 " + spec.meta.title)
     let x_label = meta.append("label").attr("axis", "x").attr("value", spec.meta.x_title).text("X축 레이블 " + spec.meta.x_title)
     let y_label = meta.append("label").attr("axis", "y").attr("value", spec.meta.y_title).text("Y축 레이블 " + spec.meta.y_title)
-    let colors = meta.append("legends").attr("text", "범례").append("colors").attr("text", "색상 범례")
-    Object.entries(spec.meta.colors).forEach(([name, color], i) => {
+    if(spec.meta.colors) {
+        let colors = meta.append("legends").attr("text", "범례").append("colors").attr("text", "색상 범례")
+        Object.entries(spec.meta.colors).forEach(([name, color], i) => {
         colors.append("color")
             .attr("name", name)
             .attr("value", color)
             .text("색상 범례 " + (i + 1) + "번 이름 " + name)
-    })
+        })
+    }
     /* Marks */
     let marks = cdg.append('marks')
     spec.marks.forEach((d, i) => {

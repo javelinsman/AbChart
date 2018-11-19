@@ -17,8 +17,8 @@ convert_button.on('click', function(){
 
 let examples = d3.select("#examples").selectAll("button").data(example_specs)
     .enter().append("button")
-        .text((d, i) => "example " + i)
-        .attr("spec", d => JSON.stringify(d, null, 4))
+        .text((d, i) => i + ". " + d.name)
+        .attr("spec", d => JSON.stringify(d.spec, null, 4))
         .on('click', function(){
             let spec = d3.select(this).attr("spec")
             spec_area.node().value = spec

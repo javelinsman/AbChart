@@ -90,19 +90,21 @@ function render(spec){
     .style("fill", d => d.color.name ? spec.meta.colors[d.color.name] : d.color)
     .call(react_on_hover)
 
-    let legend = svg.append("g")
-        .attr("transform", translate(margin.left + width + 50, margin.top))
-    let legend_items = legend.selectAll("g").data(Object.entries(spec.meta.colors), d=>d[0])
-        .enter().append("g")
-            .attr("transform", (d, i) => translate(0, 50 * i))
-            .call(react_on_hover)
-    legend_items
-        .append("rect")
-            .attr("width", 30).attr("height", 30)
-            .style("fill", d => d[1])
-    legend_items
-        .append("text")
-            .attr("transform", translate(50, 15))
-            .attr("height", 30)
-            .text(d => d[0])
+    if(spec.meta.colors){
+        let legend = svg.append("g")
+            .attr("transform", translate(margin.left + width + 50, margin.top))
+        let legend_items = legend.selectAll("g").data(Object.entries(spec.meta.colors), d=>d[0])
+            .enter().append("g")
+                .attr("transform", (d, i) => translate(0, 50 * i))
+                .call(react_on_hover)
+        legend_items
+            .append("rect")
+                .attr("width", 30).attr("height", 30)
+                .style("fill", d => d[1])
+        legend_items
+            .append("text")
+                .attr("transform", translate(50, 15))
+                .attr("height", 30)
+                .text(d => d[0])
+    }
 }
