@@ -92,8 +92,185 @@ let simple1 = {
     ]
 }
 
+let stacked2 = {
+    "meta": {
+        "title": "Revenue by Category",
+        "x_title": "",
+        "y_title": "",
+        "colors": {
+            "Hardware": "rgb(0, 69, 124)",
+            "Software": "rgb(220, 124, 125)",
+            "Office Equipment": "rgb(247, 218, 188)",
+        }
+    },
+    "marks": [
+        {
+            "type": "stacked_bar",
+            "key": "Jun 06",
+            "stacks": [
+                {"value": 98000, "color": {"name": "Hardware"}},
+                {"value": 20000, "color": {"name": "Software"}},
+                {"value": 110000, "color": {"name": "Office Equipment"}}
+            ]
+        },
+        {
+            "type": "stacked_bar",
+            "key": "Jul 06",
+            "stacks": [
+                {"value": 430000, "color": {"name": "Hardware"}},
+                {"value": 35000, "color": {"name": "Software"}},
+                {"value": 150000, "color": {"name": "Office Equipment"}}
+            ]
+        },
+        {
+            "type": "stacked_bar",
+            "key": "Aug 06",
+            "stacks": [
+                {"value": 31000, "color": {"name": "Hardware"}},
+                {"value": 30080, "color": {"name": "Software"}},
+                {"value": 5584, "color": {"name": "Office Equipment"}}
+            ]
+        },
+        {
+            "type": "stacked_bar",
+            "key": "Sep 06",
+            "stacks": [
+                {"value": 280000, "color": {"name": "Hardware"}},
+                {"value": 9850, "color": {"name": "Software"}},
+                {"value": 29387, "color": {"name": "Office Equipment"}}
+            ]
+        },
+        {
+            "type": "stacked_bar",
+            "key": "Oct 06",
+            "stacks": [
+                {"value": 134000, "color": {"name": "Hardware"}},
+                {"value": 17000, "color": {"name": "Software"}},
+                {"value": 300000, "color": {"name": "Office Equipment"}}
+            ]
+        },
+        {
+            "type": "stacked_bar",
+            "key": "Nov 06",
+            "stacks": [
+                {"value": 23000, "color": {"name": "Hardware"}},
+                {"value": 580, "color": {"name": "Software"}},
+                {"value": 350, "color": {"name": "Office Equipment"}}
+            ]
+        },
+        {
+            "type": "stacked_bar",
+            "key": "Dec 06",
+            "stacks": [
+                {"value": 80000, "color": {"name": "Hardware"}},
+                {"value": 755, "color": {"name": "Software"}},
+                {"value": 400, "color": {"name": "Office Equipment"}}
+            ]
+        },
+        {
+            "type": "stacked_bar",
+            "key": "Feb 07",
+            "stacks": [
+                {"value": 55000, "color": {"name": "Hardware"}},
+                {"value": 901, "color": {"name": "Software"}},
+                {"value": 1300, "color": {"name": "Office Equipment"}}
+            ]
+        },
+        {
+            "type": "stacked_bar",
+            "key": "Mar 07",
+            "stacks": [
+                {"value": 128008, "color": {"name": "Hardware"}},
+                {"value": 21000, "color": {"name": "Software"}},
+                {"value": 16000, "color": {"name": "Office Equipment"}}
+            ]
+        },
+        {
+            "type": "stacked_bar",
+            "key": "Apr 07",
+            "stacks": [
+                {"value": 85041, "color": {"name": "Hardware"}},
+                {"value": 371, "color": {"name": "Software"}},
+                {"value": 890, "color": {"name": "Office Equipment"}}
+            ]
+        },
+        {
+            "type": "stacked_bar",
+            "key": "May 07",
+            "stacks": [
+                {"value": 93500, "color": {"name": "Hardware"}},
+                {"value": 120043, "color": {"name": "Software"}},
+                {"value": 90, "color": {"name": "Office Equipment"}}
+            ]
+        },
+        {
+            "type": "stacked_bar",
+            "key": "Jun 07",
+            "stacks": [
+                {"value": 230, "color": {"name": "Hardware"}},
+                {"value": 313, "color": {"name": "Software"}},
+                {"value": 190, "color": {"name": "Office Equipment"}}
+            ]
+        },
+    ]
+}
+
+let stacked3 = {
+    "meta": {
+        "title": "",
+        "x_title": "",
+        "y_title": "",
+        "y_unit": "pt",
+        "width": 450,
+    },
+    "marks": [
+        {
+            "type": "stacked_bar",
+            "key": "2002",
+            "stacks": [
+                {"value": 5, "color": "red", "label":{"position": "middle", "format": "%vpt"}},
+                {"value": 82, "color": "blue", "label":{"position": "middle", "format": "%vpt"}},
+                {"value": 10, "color": "purple", "label":{"position": "middle", "format": "%vpt"}},
+            ]
+        },
+        {
+            "type": "stacked_bar",
+            "key": "2003",
+            "stacks": [
+                {"value": 11, "color": "red", "label":{"position": "middle", "format": "%vpt"}},
+                {"value": 60, "color": "blue", "label":{"position": "middle", "format": "%vpt"}},
+                {"value": 15, "color": "purple", "label":{"position": "middle", "format": "%vpt"}},
+            ]
+        },
+        {
+            "type": "stacked_bar",
+            "key": "2004",
+            "stacks": [
+                {"value": 11, "color": "red", "label":{"position": "middle", "format": "%vpt"}},
+                {"value": 60, "color": "blue", "label":{"position": "middle", "format": "%vpt"}},
+                {"value": 15, "color": "purple", "label":{"position": "middle", "format": "%vpt"}},
+            ]
+        },
+        {
+            "type": "stacked_bar",
+            "key": "2005",
+            "stacks": [
+                {"value": 35, "color": "red", "label":{"position": "middle", "format": "%vpt"}},
+                {"value": 43, "color": "blue", "label":{"position": "middle", "format": "%vpt"}},
+                {"value": 12, "color": "purple", "label":{"position": "middle", "format": "%vpt"}},
+            ]
+        },
+    ]
+}
+
+
+
+
+
 
 let example_specs = [
     {name: 'simple1', spec: simple1},
     {name: 'stacked1', spec: stacked1},
+    {name: 'stacked2', spec: stacked2},
+    {name: 'stacked3', spec: stacked3},
 ]
