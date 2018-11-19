@@ -3,11 +3,6 @@ function convert(spec){
 
     d3.select("#cdg_temp").selectAll("*").remove()
     let cdg = d3.select("#cdg_temp").append('graph')
-    /* Guides */
-    let guides = cdg.append("guides")
-    guides.append("guide").text("차트입니다. 더 알아보시려면 S를, 사용법에 대해 알고 싶으면 G를 눌러주세요.")
-    guides.append("guide").text("키보드를 눌러 차트를 탐색하실 수 있습니다. S를 누르면 중요한 정보를 차례대로 들려드립니다. 기타 사용법을 더 알고 싶으시면 G를 눌러주세요.")
-    guides.append("guide").text("M을 누르면...")
 
     /* Meta */
     let meta = cdg.append("meta")
