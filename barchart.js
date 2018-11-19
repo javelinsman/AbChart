@@ -18,6 +18,10 @@ function make_offset(stack, key){
     })
 }
 
+function if_exists(value, default_value=""){
+    return value ? value : default_value
+}
+
 function react_on_hover(selection){
     return selection
         .on("mouseover", function(){ d3.select(this).classed("focused", true) })
@@ -71,16 +75,21 @@ function render(spec){
         .attr("transform", translate(margin.left, margin.top)).call(y_axis)
         .selectAll(".tick").call(react_on_hover)
 
+    let title_and_unit = (title, unit) => {
+        if(title && unit) return title + " (" + unit + ")"
+        else return if_exists(title) + if_exists(unit)
+    }
+
     let x_title = svg.append("text")
         .attr("transform", translate(svg_width / 2, margin.top + height + 2 * margin.bottom / 3))
         .style("text-anchor", "middle")
-        .text(spec.meta.x_title)
+        .text(title_and_unit(spec.meta.x_title, spec.meta.x_unit))
         .call(react_on_hover)
 
     let y_title = svg.append("text")
         .attr("transform", translate(margin.left / 2, svg_height / 2) + " rotate(-90)")
         .style("text-anchor", "middle")
-        .text(spec.meta.y_title)
+        .text(title_and_unit(spec.meta.y_title, spec.meta.y_unit))
         .call(react_on_hover)
 
     if(["horizontal", "grid"].indexOf(spec.meta.gridline) >= 0){
@@ -120,7 +129,7 @@ function render(spec){
                 .attr("transform", translate(x(d.key) + x.bandwidth() / 2, y(d.offset + d.value) + 20))
                 .style("text-shadow", "-1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white")
                 .style("text-anchor", "middle")
-                .text(d.label.format.replace(/%v/g, d.value))
+                .text(d.label.format.replace(/%v/g, d.value).replace(/%u/g, if_exists(spec.meta.y_unit)))
             if(d.label.position === "middle"){
                 label.attr("transform", translate(x(d.key) + x.bandwidth() / 2, 5 + y(d.offset + d.value) + (height - y(d.value)) / 2))
             }
