@@ -246,18 +246,18 @@ let stacked3 = {
             "type": "stacked_bar",
             "key": "2004",
             "stacks": [
-                {"value": 11, "color": "red", "label":{"position": "middle", "format": "%vpt"}},
-                {"value": 60, "color": "blue", "label":{"position": "middle", "format": "%vpt"}},
-                {"value": 15, "color": "purple", "label":{"position": "middle", "format": "%vpt"}},
+                {"value": 35, "color": "red", "label":{"position": "middle", "format": "%vpt"}},
+                {"value": 43, "color": "blue", "label":{"position": "middle", "format": "%vpt"}},
+                {"value": 12, "color": "purple", "label":{"position": "middle", "format": "%vpt"}},
             ]
         },
         {
             "type": "stacked_bar",
             "key": "2005",
             "stacks": [
-                {"value": 35, "color": "red", "label":{"position": "middle", "format": "%vpt"}},
-                {"value": 43, "color": "blue", "label":{"position": "middle", "format": "%vpt"}},
-                {"value": 12, "color": "purple", "label":{"position": "middle", "format": "%vpt"}},
+                {"value": 8, "color": "red", "label":{"position": "middle", "format": "%vpt"}},
+                {"value": 55, "color": "blue", "label":{"position": "middle", "format": "%vpt"}},
+                {"value": 5, "color": "purple", "label":{"position": "middle", "format": "%vpt"}},
             ]
         },
     ]

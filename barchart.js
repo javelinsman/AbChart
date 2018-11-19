@@ -9,16 +9,17 @@ function translate(x, y){
 
 */
 
-function make_offset(stack){
+function make_offset(stack, key){
     return stack.map((d, i, a) => {
         if(i == 0) d.offset = 0
         else d.offset = a[i-1].offset + a[i-1].value
+        d.key = key
         return d
     })
 }
 
 function react_on_hover(selection){
-    selection
+    return selection
         .on("mouseover", function(){ d3.select(this).classed("focused", true) })
         .on("mouseout", function(){ d3.select(this).classed("focused", false) })
 }
@@ -104,15 +105,26 @@ function render(spec){
     let bars = view.append("g").selectAll("g").data(spec.marks)
     let stacks = bars.enter().append("g")
             .attr("transform", d => translate(x(d.key), 0))
-        .selectAll("rect").data(d => d.type === "bar" ? make_offset([d.bar]) : make_offset(d.stacks))
-    stacks.enter().append("rect")
-    .attr("width", x.bandwidth())
-    .attr("height", d => height - y(d.value))
-    .attr("transform", (d, i) => {
-        return translate(0, y(d.offset + d.value))
-    })
-    .style("fill", d => d.color.name ? spec.meta.colors[d.color.name] : d.color)
-    .call(react_on_hover)
+        .selectAll("rect").data(d => d.type === "bar" ? make_offset([d.bar], d.key) : make_offset(d.stacks, d.key))
+    let rects = stacks.enter().append("rect")
+        .attr("width", x.bandwidth())
+        .attr("height", d => height - y(d.value))
+        .attr("transform", (d, i) => {
+            return translate(0, y(d.offset + d.value))
+        })
+        .style("fill", d => d.color.name ? spec.meta.colors[d.color.name] : d.color)
+        .call(react_on_hover)
+        .each(function(d, i){
+            if(!d.label) return
+            let label = view.append("text")
+                .attr("transform", translate(x(d.key) + x.bandwidth() / 2, y(d.offset + d.value) + 20))
+                .style("text-shadow", "-1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white")
+                .style("text-anchor", "middle")
+                .text(d.label.format.replace(/%v/g, d.value))
+            if(d.label.position === "middle"){
+                label.attr("transform", translate(x(d.key) + x.bandwidth() / 2, 5 + y(d.offset + d.value) + (height - y(d.value)) / 2))
+            }
+        })
 
     if(spec.meta.colors){
         let legend = svg.append("g")
