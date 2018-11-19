@@ -55,8 +55,8 @@ let simple1 = {
         "x_title": "",
         "y_title": "Number of Cars Sold",
         "gridline": "horizontal",
-        "width": 500,
-        "height": 300
+        "width": 600,
+        "height": 450
     },
     "marks": [
         {
