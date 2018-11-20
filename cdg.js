@@ -28,16 +28,27 @@ function convert(spec){
     let marks = cdg.append('marks')
     spec.marks.forEach((d, i) => {
         let stacked = d.type === "stacked_bar"
-        let bar = marks.append("bar")
-            .attr("stacked", stacked)
-            .attr("text", "막대" + (stacked ? "더미 ": " ") + (i+1) + "번")
-        if(stacked) d.stacks.forEach((stack, j) => {
-            bar.append("stack")
-                .attr("data", stack.value)
-                .attr("color", stack.color.name ? stack.color.name : stack.color)
-                .text("막대조각 " + j + "번 높이 " + stack.value + y_unit + " 색상 " +
-                    (stack.color.name ? "범례 " + stack.color.name : stack.color))
-        })
+        let grouped = d.type === "grouped_bar"
+        if(stacked){
+            let bar = marks.append("bar")
+                .attr("stacked", true)
+                .attr("text", "막대" + (stacked ? "더미 ": " ") + (i+1) + "번")
+            d.stacks.forEach((stack, j) => {
+                bar.append("stack")
+                    .attr("data", stack.value)
+                    .attr("color", stack.color.name ? stack.color.name : stack.color)
+                    .text("막대조각 " + j + "번 높이 " + stack.value + y_unit + " 색상 " +
+                        (stack.color.name ? "범례 " + stack.color.name : stack.color))
+            })
+        }
+        else if(grouped){
+
+        }
+        else{
+            let bar = marks.append("bar")
+                .attr("text", "막대" + (i+1) + "번 높이 " + d.bar.value + y_unit + " 색상 " +
+                        (d.bar.color.name ? "범례 " + d.bar.color.name : d.bar.color))
+        }
     })
 
     /* Axes */
