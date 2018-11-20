@@ -29,33 +29,54 @@ function convert(spec){
     spec.marks.forEach((d, i) => {
         let stacked = d.type === "stacked_bar"
         let grouped = d.type === "grouped_bar"
+        let x_unit = spec.meta.x_unit ? spec.meta.x_unit : ""
+        let y_unit = spec.meta.y_unit ? spec.meta.y_unit : ""
         if(stacked){
             let bar = marks.append("bar")
                 .attr("stacked", true)
-                .attr("text", "막대" + (stacked ? "더미 ": " ") + (i+1) + "번")
+                .attr("text", 
+                        d.stacks.reduce((a, b) => a + b.value, 0) + y_unit
+                        + " " + d.key + x_unit 
+                        + " " + (i+1) + "번째 막대더미"
+                    )
             d.stacks.forEach((stack, j) => {
                 bar.append("stack")
                     .attr("data", stack.value)
                     .attr("color", stack.color.name ? stack.color.name : stack.color)
-                    .text("막대조각 " + (j+1) + "번 높이 " + stack.value + y_unit + " 색상 " +
-                        (stack.color.name ? "범례 " + stack.color.name : stack.color))
+                    .text(
+                        stack.value + y_unit 
+                        + " " + (stack.color.name ? " "  + stack.color.name : "") 
+                        + " " + (j+1) + "번째 조각"
+                        + " " + d.key + x_unit
+                        + (stack.color.name ? "" : " 색상 " + stack.color)
+                    )
             })
         }
         else if(grouped){
             let bargroup = marks.append("bargroup")
-                .attr("text", "막대 그룹 " + (i+1) + "번" )
+                .attr("text", d.key + x_unit
+                    + " " + (i+1) + "번째 막대그룹")
             d.groups.forEach((bar, j) => {
                 bargroup.append("bar")
                     .attr("data", bar.bar.value)
                     .attr("color", bar.bar.color.name ? bar.bar.color.name : bar.bar.color)
-                    .text("막대 " + (j+1) + "번 높이 " + bar.bar.value + y_unit + " 색상 " +
-                        (bar.bar.color.name ? "범례 " + bar.bar.color.name : bar.bar.color))
+                    .text(
+                        bar.bar.value + y_unit 
+                        + (bar.key ? " " + bar.key : "")
+                        + (bar.bar.color.name ? (bar.key ? " 색상범례 " : " ") + bar.bar.color.name : "")
+                        + " " + (j+1) + "번째 막대"
+                        + (bar.bar.color.name ? "" : " 색상 " + bar.bar.color)
+                    )
             })
         }
         else{
             let bar = marks.append("bar")
-                .attr("text", "막대" + (i+1) + "번 높이 " + d.bar.value + y_unit + " 색상 " +
-                        (d.bar.color.name ? "범례 " + d.bar.color.name : d.bar.color))
+                .text(
+                    d.bar.value + y_unit 
+                    + (d.bar.color.name ? " " + d.bar.color.name : "")
+                    + " " + (i+1) + "번째 막대"
+                    + (d.bar.color.name ? "" : " 색상 " + d.bar.color)
+                )
         }
     })
 
@@ -86,7 +107,6 @@ function convert(spec){
         ys.push(+d3.select(this).select("text").text().replace(/,/g, ""))
     })
     let maxy = d3.max(ys)
-    console.log(ys)
     let y = axes.append("axis").attr("id", "y").attr("text", "y축의 범위는 약 0부터 " + maxy + "까지입니다.")
     chart.select("#y-axis").selectAll(".tick").each(function(){
         y.append("tick")
