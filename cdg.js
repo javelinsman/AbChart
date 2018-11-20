@@ -6,9 +6,15 @@ function convert(spec){
 
     /* Meta */
     let meta = cdg.append("meta")
-    let title = meta.append("title").attr("value", spec.meta.title).text("차트 제목 " + spec.meta.title)
-    let x_label = meta.append("label").attr("axis", "x").attr("value", spec.meta.x_title).text("X축 레이블 " + spec.meta.x_title)
-    let y_label = meta.append("label").attr("axis", "y").attr("value", spec.meta.y_title).text("Y축 레이블 " + spec.meta.y_title)
+    let title = meta.append("title").attr("value", spec.meta.title).text("차트 제목 " + (spec.meta.title.length ? spec.meta.title : "없음"))
+    let x_unit = spec.meta.x_unit ? spec.meta.x_unit : ""
+    let x_label = meta.append("label").attr("axis", "x").attr("value", spec.meta.x_title)
+        .attr("unit", x_unit ? x_unit : "")
+        .text("X축 레이블 " + (spec.meta.x_title.length ? spec.meta.x_title : "없음") + (x_unit ? " 단위 " + x_unit : ""))
+    let y_unit = spec.meta.y_unit ? spec.meta.y_unit : ""
+    let y_label = meta.append("label").attr("axis", "y").attr("value", spec.meta.y_title)
+        .attr("unit", y_unit ? y_unit : "")
+        .text("Y축 레이블 " + (spec.meta.y_title.length ? spec.meta.y_title : "없음") + (y_unit ? " 단위 " + y_unit : ""))
     if(spec.meta.colors) {
         let colors = meta.append("legends").attr("text", "범례").append("colors").attr("text", "색상 범례")
         Object.entries(spec.meta.colors).forEach(([name, color], i) => {
@@ -29,7 +35,7 @@ function convert(spec){
             bar.append("stack")
                 .attr("data", stack.value)
                 .attr("color", stack.color.name ? stack.color.name : stack.color)
-                .text("막대조각 " + j + "번 높이 " + stack.value + " 색상 " +
+                .text("막대조각 " + j + "번 높이 " + stack.value + y_unit + " 색상 " +
                     (stack.color.name ? "범례 " + stack.color.name : stack.color))
         })
     })
@@ -41,7 +47,7 @@ function convert(spec){
     chart.select("#x-axis").selectAll(".tick").each(function(){
         x.append("tick")
             .attr("value", d3.select(this).select("text").text())
-            .text(d3.select(this).select("text").text())
+            .text("값 " + d3.select(this).select("text").text() + (x_unit.length ? " 단위 " + x_unit : ""))
     })
 
     let ny = chart.select("#y-axis").selectAll(".tick").size()
@@ -49,7 +55,7 @@ function convert(spec){
     chart.select("#y-axis").selectAll(".tick").each(function(){
         y.append("tick")
             .attr("value", d3.select(this).select("text").text())
-            .text(d3.select(this).select("text").text())
+            .text("값 " + d3.select(this).select("text").text() + (y_unit.length ? " 단위 " + y_unit : ""))
     })
 
     /* Insights */
@@ -78,8 +84,8 @@ function convert(spec){
     })
     let max_ind = bar_heights.findIndex(d => d === d3.max(bar_heights))
     let min_ind = bar_heights.findIndex(d => d === d3.min(bar_heights))
-    notables.append("extreme").attr("type", "max").text("가장 긴 막대는 " + (max_ind + 1) + "번 막대로 높이는 " + d3.max(bar_heights) + "입니다.")
-    notables.append("extreme").attr("type", "min").text("가장 짧은 막대는 " + (min_ind + 1) + "번 막대로 높이는 " + d3.min(bar_heights) + "입니다.")
+    notables.append("extreme").attr("type", "max").text("가장 긴 막대는 " + (max_ind + 1) + "번 막대로 높이는 " + d3.max(bar_heights) + y_unit + "입니다.")
+    notables.append("extreme").attr("type", "min").text("가장 짧은 막대는 " + (min_ind + 1) + "번 막대로 높이는 " + d3.min(bar_heights) + y_unit + "입니다.")
 
     return cdg
 }
