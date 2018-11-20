@@ -382,6 +382,51 @@ let grouped2 = {
     ]
 }
 
+let grouped3 = {
+    meta: {
+        title: "Fitness Report: Runtime and Oxygen Consumed",
+        x_title: "Experimental group",
+        y_title: "Oxygen consumption",
+        subx_title: "Min. to run 15 miles",
+        colors: {
+            "0": "red",
+            "1": "green",
+            "2": "blue",
+        },
+    },
+    marks: [
+        {
+            type: "grouped_bar",
+            key: "0",
+            groups: [
+                {type: "bar", key: "10", bar: {value: 54, color: {"name": "0"}}},
+                {type: "bar", key: "12", bar: {value: 45, color: {"name": "0"}}},
+                {type: "bar", key: "14", bar: {value: 39, color: {"name": "0"}}},
+            ]
+        },
+        {
+            type: "grouped_bar",
+            key: "1",
+            groups: [
+                {type: "bar", key: "10", bar: {value: 48, color: {"name": "1"}}},
+                {type: "bar", key: "12", bar: {value: 45, color: {"name": "1"}}},
+                {type: "bar", key: "14", bar: {value: 36, color: {"name": "1"}}},
+            ]
+        },
+        {
+            type: "grouped_bar",
+            key: "2",
+            groups: [
+                {type: "bar", key: "10", bar: {value: 50, color: {"name": "2"}}},
+                {type: "bar", key: "12", bar: {value: 43, color: {"name": "2"}}},
+                {type: "bar", key: "14", bar: {value: 0, color: {"name": "2"}}},
+            ]
+        },
+
+    ]
+}
+
+
 
 let example_specs = [
     {name: 'simple1', spec: simple1},
@@ -390,4 +435,5 @@ let example_specs = [
     {name: 'stacked3', spec: stacked3},
     {name: 'grouped1', spec: grouped1},
     {name: 'grouped2', spec: grouped2},
+    {name: 'grouped3', spec: grouped3},
 ]
