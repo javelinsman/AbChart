@@ -6,13 +6,13 @@ function convert(spec){
 
     /* Meta */
     let meta = cdg.append("meta")
-    let title = meta.append("title").attr("value", spec.meta.title).text("차트 제목 " + (spec.meta.title.length ? spec.meta.title : "없음"))
+    let title = meta.append("title").text("차트 제목 " + (spec.meta.title.length ? spec.meta.title : "없음"))
     let x_unit = spec.meta.x_unit ? spec.meta.x_unit : ""
-    let x_label = meta.append("label").attr("axis", "x").attr("value", spec.meta.x_title)
+    let x_label = meta.append("label").attr("axis", "x")
         .attr("unit", x_unit ? x_unit : "")
         .text("X축 레이블 " + (spec.meta.x_title.length ? spec.meta.x_title : "없음") + (x_unit ? " 단위 " + x_unit : ""))
     let y_unit = spec.meta.y_unit ? spec.meta.y_unit : ""
-    let y_label = meta.append("label").attr("axis", "y").attr("value", spec.meta.y_title)
+    let y_label = meta.append("label").attr("axis", "y")
         .attr("unit", y_unit ? y_unit : "")
         .text("Y축 레이블 " + (spec.meta.y_title.length ? spec.meta.y_title : "없음") + (y_unit ? " 단위 " + y_unit : ""))
     if(spec.meta.colors) {
@@ -33,7 +33,6 @@ function convert(spec){
         let y_unit = spec.meta.y_unit ? spec.meta.y_unit : ""
         if(stacked){
             let bar = marks.append("bar")
-                .attr("stacked", true)
                 .attr("text", 
                         d.stacks.reduce((a, b) => a + b.value, 0) + y_unit
                         + " " + d.key + x_unit 
@@ -41,8 +40,6 @@ function convert(spec){
                     )
             d.stacks.forEach((stack, j) => {
                 bar.append("stack")
-                    .attr("data", stack.value)
-                    .attr("color", stack.color.name ? stack.color.name : stack.color)
                     .text(
                         stack.value + y_unit 
                         + " " + (stack.color.name ? " "  + stack.color.name : "") 
@@ -58,8 +55,6 @@ function convert(spec){
                     + " " + (i+1) + "번째 막대그룹")
             d.groups.forEach((bar, j) => {
                 bargroup.append("bar")
-                    .attr("data", bar.bar.value)
-                    .attr("color", bar.bar.color.name ? bar.bar.color.name : bar.bar.color)
                     .text(
                         bar.bar.value + y_unit 
                         + (bar.key ? " " + bar.key : "")
@@ -87,7 +82,6 @@ function convert(spec){
         let x = axes.append("axis").attr("id", "x").attr("text", nx +"개의 막대그룹이 있습니다.")
         chart.select("#x-axis").selectAll(".tick").each(function(){
             x.append("tick")
-                .attr("value", d3.select(this).select("text").text())
                 .text("값 " + d3.select(this).select("text").text() + (x_unit.length ? " 단위 " + x_unit : ""))
         })
     }
@@ -96,7 +90,6 @@ function convert(spec){
         let x = axes.append("axis").attr("id", "x").attr("text", nx +"개의 막대가 있습니다.")
         chart.select("#x-axis").selectAll(".tick").each(function(){
             x.append("tick")
-                .attr("value", d3.select(this).select("text").text())
                 .text("값 " + d3.select(this).select("text").text() + (x_unit.length ? " 단위 " + x_unit : ""))
         })
     }
@@ -110,7 +103,6 @@ function convert(spec){
     let y = axes.append("axis").attr("id", "y").attr("text", "y축의 범위는 약 0부터 " + maxy + "까지입니다.")
     chart.select("#y-axis").selectAll(".tick").each(function(){
         y.append("tick")
-            .attr("value", d3.select(this).select("text").text())
             .text("값 " + d3.select(this).select("text").text() + (y_unit.length ? " 단위 " + y_unit : ""))
     })
 
@@ -121,7 +113,7 @@ function convert(spec){
     spec.marks.forEach((d, i) => {
         let stacked = d.type === "stacked_bar"
         if(stacked) d.stacks.forEach((stack, j) => {
-            if(!stack.color.name){
+            if(spec.meta.colors && !stack.color.name){
                 annotation.append("highlight").attr("type", "style:color").text((i+1) +"번 막대더미 " + (j+1) + "번 조각의 색상이 " + stack.color + "로 범례 외의 색상입니다.")
             }
         })
