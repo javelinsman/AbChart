@@ -274,6 +274,7 @@ let grouped1 = {
             "BEFORE PROGRAM": "rgb(0, 169, 167)",
             "AFTER PROGRAM": "rgb(26, 57, 103)",
         },
+        width: 850,
         x_tick_rotate: "30",
     },
     marks: [
