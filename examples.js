@@ -329,10 +329,65 @@ let grouped1 = {
     ]
 }
 
+let grouped2 = {
+    meta: {
+        title: "Applications to 3 US Universities",
+        x_title: "Faculty Area",
+        y_title: "Number of Student Applications",
+        gridline: "horizontal",
+        colors: {
+            "1990": "blue",
+            "2000": "red",
+            "2010": "yellowgreen",
+        },
+        width: 800
+    },
+    marks: [
+        {
+            type: "grouped_bar",
+            key: "Biology",
+            groups: [
+                {type: "bar", bar: {value: 3000, color: {"name": "1990"}}},
+                {type: "bar", bar: {value: 1500, color: {"name": "2000"}}},
+                {type: "bar", bar: {value: 900, color: {"name": "2010"}}},
+            ]
+        },
+        {
+            type: "grouped_bar",
+            key: "Engineering",
+            groups: [
+                {type: "bar", bar: {value: 4000, color: {"name": "1990"}}},
+                {type: "bar", bar: {value: 2500, color: {"name": "2000"}}},
+                {type: "bar", bar: {value: 600, color: {"name": "2010"}}},
+            ]
+        },
+        {
+            type: "grouped_bar",
+            key: "Business",
+            groups: [
+                {type: "bar", bar: {value: 2000, color: {"name": "1990"}}},
+                {type: "bar", bar: {value: 3000, color: {"name": "2000"}}},
+                {type: "bar", bar: {value: 4000, color: {"name": "2010"}}},
+            ]
+        },
+        {
+            type: "grouped_bar",
+            key: "Social Work",
+            groups: [
+                {type: "bar", bar: {value: 1000, color: {"name": "1990"}}},
+                {type: "bar", bar: {value: 1400, color: {"name": "2000"}}},
+                {type: "bar", bar: {value: 1900, color: {"name": "2010"}}},
+            ]
+        },
+    ]
+}
+
+
 let example_specs = [
     {name: 'simple1', spec: simple1},
     {name: 'stacked1', spec: stacked1},
     {name: 'stacked2', spec: stacked2},
     {name: 'stacked3', spec: stacked3},
     {name: 'grouped1', spec: grouped1},
+    {name: 'grouped2', spec: grouped2},
 ]
