@@ -164,6 +164,10 @@ function render(spec){
                 x_axis_g
                     .attr("transform", translate(margin.left, margin.top + height + 25))
             })
+            if(spec.meta.subx_title){
+                svg.append("text").attr("transform", translate(margin.left + width, margin.top + height + 10))
+                    .text(spec.meta.subx_title)
+            }
         }
     }
     else{
