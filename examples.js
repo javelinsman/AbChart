@@ -273,23 +273,56 @@ let grouped1 = {
         colors: {
             "BEFORE PROGRAM": "rgb(0, 169, 167)",
             "AFTER PROGRAM": "rgb(26, 57, 103)",
-        }
+        },
+        x_tick_rotate: "30",
     },
     marks: [
         {
             type: "grouped_bar",
             key: "WORK RETURN INTEREST",
             groups: [
-                {type: "bar", key: "a", bar: {value: 1.8, color: {"name": "BEFORE PROGRAM"}, label:{position: "top", format: "%v"}}},
-                {type: "bar", key: "b", bar: {value: 4.4, color: {"name": "AFTER PROGRAM"}, label:{position: "top", format: "%v"}}},
+                {type: "bar", bar: {value: 1.8, color: {"name": "BEFORE PROGRAM"}, label:{position: "top", format: "%v"}}},
+                {type: "bar", bar: {value: 4.4, color: {"name": "AFTER PROGRAM"}, label:{position: "top", format: "%v"}}},
             ]
         },
         {
             type: "grouped_bar",
             key: "SLEEP",
             groups: [
-                {type: "bar", key: "a", bar: {value: 2.8, color: {"name": "BEFORE PROGRAM"}, label:{position: "top", format: "%v"}}},
-                {type: "bar", key: "b", bar: {value: 6.1, color: {"name": "AFTER PROGRAM"}, label:{position: "top", format: "%v"}}},
+                {type: "bar", bar: {value: 2.8, color: {"name": "BEFORE PROGRAM"}, label:{position: "top", format: "%v"}}},
+                {type: "bar", bar: {value: 6.1, color: {"name": "AFTER PROGRAM"}, label:{position: "top", format: "%v"}}},
+            ]
+        },
+        {
+            type: "grouped_bar",
+            key: "ACTIVITY LEVEL",
+            groups: [
+                {type: "bar", bar: {value: 2.8, color: {"name": "BEFORE PROGRAM"}, label:{position: "top", format: "%v"}}},
+                {type: "bar", bar: {value: 6.3, color: {"name": "AFTER PROGRAM"}, label:{position: "top", format: "%v"}}},
+            ]
+        },
+        {
+            type: "grouped_bar",
+            key: "MOOD",
+            groups: [
+                {type: "bar", bar: {value: 3.0, color: {"name": "BEFORE PROGRAM"}, label:{position: "top", format: "%v"}}},
+                {type: "bar", bar: {value: 7.3, color: {"name": "AFTER PROGRAM"}, label:{position: "top", format: "%v"}}},
+            ]
+        },
+        {
+            type: "grouped_bar",
+            key: "ABILITY TO MANAGE PAIN",
+            groups: [
+                {type: "bar", bar: {value: 3.1, color: {"name": "BEFORE PROGRAM"}, label:{position: "top", format: "%v"}}},
+                {type: "bar", bar: {value: 6.7, color: {"name": "AFTER PROGRAM"}, label:{position: "top", format: "%v"}}},
+            ]
+        },
+        {
+            type: "grouped_bar",
+            key: "PAIN LEVEL",
+            groups: [
+                {type: "bar", bar: {value: 6.9, color: {"name": "BEFORE PROGRAM"}, label:{position: "top", format: "%v"}}},
+                {type: "bar", bar: {value: 4.6, color: {"name": "AFTER PROGRAM"}, label:{position: "top", format: "%v"}}},
             ]
         },
     ]
