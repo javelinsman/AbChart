@@ -53,6 +53,9 @@ function render(spec){
         if(d.type === "stacked_bar"){
             return d.stacks.reduce((a, b) => a + b.value, 0)
         }
+        else if(d.type === "grouped_bar"){
+            return d3.max(d.groups.map(d => d.bar.value))
+        }
         else return d.bar.value
     })
 
@@ -112,28 +115,62 @@ function render(spec){
     }
 
     let bars = view.append("g").selectAll("g").data(spec.marks)
-    let stacks = bars.enter().append("g")
-            .attr("transform", d => translate(x(d.key), 0))
-        .selectAll("rect").data(d => d.type === "bar" ? make_offset([d.bar], d.key) : make_offset(d.stacks, d.key))
-    let rects = stacks.enter().append("rect")
-        .attr("width", x.bandwidth())
-        .attr("height", d => height - y(d.value))
-        .attr("transform", (d, i) => {
-            return translate(0, y(d.offset + d.value))
-        })
-        .style("fill", d => d.color.name ? spec.meta.colors[d.color.name] : d.color)
-        .call(react_on_hover)
-        .each(function(d, i){
-            if(!d.label) return
-            let label = view.append("text")
-                .attr("transform", translate(x(d.key) + x.bandwidth() / 2, y(d.offset + d.value) + 20))
-                .style("text-shadow", "-1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white")
-                .style("text-anchor", "middle")
-                .text(d.label.format.replace(/%v/g, d.value).replace(/%u/g, if_exists(spec.meta.y_unit)))
-            if(d.label.position === "middle"){
-                label.attr("transform", translate(x(d.key) + x.bandwidth() / 2, 5 + y(d.offset + d.value) + (height - y(d.value)) / 2))
-            }
-        })
+    if(spec.marks[0].type == "grouped_bar"){
+        let groups = bars.enter().append("g")
+                .attr("transform", d => translate(x(d.key), 0))
+            .selectAll("rect").data((d, i) => d.groups.map(bar => ({
+                "parent_key": d.key,
+                "bar": bar,
+                "subx": d3.scaleBand()
+                    .domain(d.groups.map((t, j) => t.key ? t.key : j))
+                    .range([0, x.bandwidth()]).padding(0.1)
+            })))
+        let rects = groups.enter().append("rect")
+            .attr("width", d => {
+                return d.subx.bandwidth()
+            })
+            .attr("height", d => height - y(d.bar.bar.value))
+            .attr("transform", (d, i) => {
+                return translate(d.subx(d.bar.key ? d.bar.key : i), y(d.bar.bar.value))
+            })
+            .style("fill", d => d.bar.bar.color.name ? spec.meta.colors[d.bar.bar.color.name] : d.bar.bar.color)
+            .call(react_on_hover)
+            .each(function(d, i){
+                if(!d.bar.bar.label) return
+                let label = view.append("text")
+                    .attr("transform", translate(x(d.parent_key) + d.subx(d.bar.key ? d.bar.key : i) + d.subx.bandwidth() / 2, y(d.bar.bar.value) + 20))
+                    .style("text-shadow", "-1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white")
+                    .style("text-anchor", "middle")
+                    .text(d.bar.bar.label.format.replace(/%v/g, d.bar.bar.value).replace(/%u/g, if_exists(spec.meta.y_unit)))
+                if(d.bar.bar.label.position === "middle"){
+                    label.attr("transform", translate(x(d.parent_key) + d.subx(d.bar.key ? d.bar.key : i) + d.subx.bandwidth() / 2, (height + y(d.bar.bar.value)) / 2 + 5))
+                }
+            })
+    }
+    else{
+        let stacks = bars.enter().append("g")
+                .attr("transform", d => translate(x(d.key), 0))
+            .selectAll("rect").data(d => d.type === "bar" ? make_offset([d.bar], d.key) : make_offset(d.stacks, d.key))
+        let rects = stacks.enter().append("rect")
+            .attr("width", x.bandwidth())
+            .attr("height", d => height - y(d.value))
+            .attr("transform", (d, i) => {
+                return translate(0, y(d.offset + d.value))
+            })
+            .style("fill", d => d.color.name ? spec.meta.colors[d.color.name] : d.color)
+            .call(react_on_hover)
+            .each(function(d, i){
+                if(!d.label) return
+                let label = view.append("text")
+                    .attr("transform", translate(x(d.key) + x.bandwidth() / 2, y(d.offset + d.value) + 20))
+                    .style("text-shadow", "-1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white")
+                    .style("text-anchor", "middle")
+                    .text(d.label.format.replace(/%v/g, d.value).replace(/%u/g, if_exists(spec.meta.y_unit)))
+                if(d.label.position === "middle"){
+                    label.attr("transform", translate(x(d.key) + x.bandwidth() / 2, 5 + y(d.offset + d.value) + (height - y(d.value)) / 2))
+                }
+            })
+    }
 
     if(spec.meta.colors){
         let legend = svg.append("g")

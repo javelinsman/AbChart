@@ -222,6 +222,7 @@ let stacked3 = {
         "y_title": "",
         "y_unit": "pt",
         "width": 500,
+        "gridline": "grid"
     },
     "marks": [
         {
@@ -263,14 +264,41 @@ let stacked3 = {
     ]
 }
 
-
-
-
-
+let grouped1 = {
+    meta: {
+        title: "",
+        x_title: "",
+        y_title: "",
+        gridline: "horizontal",
+        colors: {
+            "BEFORE PROGRAM": "rgb(0, 169, 167)",
+            "AFTER PROGRAM": "rgb(26, 57, 103)",
+        }
+    },
+    marks: [
+        {
+            type: "grouped_bar",
+            key: "WORK RETURN INTEREST",
+            groups: [
+                {type: "bar", key: "a", bar: {value: 1.8, color: {"name": "BEFORE PROGRAM"}, label:{position: "top", format: "%v"}}},
+                {type: "bar", key: "b", bar: {value: 4.4, color: {"name": "AFTER PROGRAM"}, label:{position: "top", format: "%v"}}},
+            ]
+        },
+        {
+            type: "grouped_bar",
+            key: "SLEEP",
+            groups: [
+                {type: "bar", key: "a", bar: {value: 2.8, color: {"name": "BEFORE PROGRAM"}, label:{position: "top", format: "%v"}}},
+                {type: "bar", key: "b", bar: {value: 6.1, color: {"name": "AFTER PROGRAM"}, label:{position: "top", format: "%v"}}},
+            ]
+        },
+    ]
+}
 
 let example_specs = [
     {name: 'simple1', spec: simple1},
     {name: 'stacked1', spec: stacked1},
     {name: 'stacked2', spec: stacked2},
     {name: 'stacked3', spec: stacked3},
+    {name: 'grouped1', spec: grouped1},
 ]
