@@ -71,8 +71,9 @@ function render(spec){
     let y = d3.scaleLinear().domain([0, d3.max(bar_heights)]).range([height, 0])
     let x_axis = d3.axisBottom(x)
     let y_axis = d3.axisLeft(y)
-    let x_ticks = svg.append("g").attr("id", "x-axis")
+    let x_axis_g = svg.append("g").attr("id", "x-axis")
             .attr("transform", translate(margin.left, margin.top + height)).call(x_axis)
+    let x_ticks = x_axis_g
             .selectAll(".tick").call(react_on_hover)
     if(spec.meta.x_tick_rotate) x_ticks.selectAll("text")
         .attr("transform", "rotate(" + spec.meta.x_tick_rotate + ")")
@@ -149,6 +150,21 @@ function render(spec){
                     label.attr("transform", translate(x(d.parent_key) + d.subx(d.bar.key ? d.bar.key : i) + d.subx.bandwidth() / 2, (height + y(d.bar.bar.value)) / 2 + 5))
                 }
             })
+        
+        // draw subx axis if some bars have "key" attribute
+        if(spec.marks.map(mark => mark.groups.map(bar => bar.key)).reduce((a, b) => a.concat(b)).filter(d => d).length){
+            bars.enter().append("g").each(function(d, i){
+                let subx = d3.axisBottom(d3.scaleBand()
+                    .domain(d.groups.map((t, j) => t.key ? t.key : j))
+                    .range([0, x.bandwidth()]).padding(0.1))
+                d3.select(this)
+                    .classed("sub-axis", true)
+                    .attr("transform", translate(x(d.key), height))
+                    .call(subx)
+                x_axis_g
+                    .attr("transform", translate(margin.left, margin.top + height + 25))
+            })
+        }
     }
     else{
         let stacks = bars.enter().append("g")
