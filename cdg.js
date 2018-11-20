@@ -37,12 +37,20 @@ function convert(spec){
                 bar.append("stack")
                     .attr("data", stack.value)
                     .attr("color", stack.color.name ? stack.color.name : stack.color)
-                    .text("막대조각 " + j + "번 높이 " + stack.value + y_unit + " 색상 " +
+                    .text("막대조각 " + (j+1) + "번 높이 " + stack.value + y_unit + " 색상 " +
                         (stack.color.name ? "범례 " + stack.color.name : stack.color))
             })
         }
         else if(grouped){
-
+            let bargroup = marks.append("bargroup")
+                .attr("text", "막대 그룹 " + (i+1) + "번" )
+            d.groups.forEach((bar, j) => {
+                bargroup.append("bar")
+                    .attr("data", bar.bar.value)
+                    .attr("color", bar.bar.color.name ? bar.bar.color.name : bar.bar.color)
+                    .text("막대 " + (j+1) + "번 높이 " + bar.bar.value + y_unit + " 색상 " +
+                        (bar.bar.color.name ? "범례 " + bar.bar.color.name : bar.bar.color))
+            })
         }
         else{
             let bar = marks.append("bar")
@@ -53,16 +61,33 @@ function convert(spec){
 
     /* Axes */
     let axes = cdg.append('axes')
-    let nx = chart.select("#x-axis").selectAll(".tick").size()
-    let x = axes.append("axis").attr("id", "x").attr("text", "x축에는 " + nx +"개의 표시가 있습니다.")
-    chart.select("#x-axis").selectAll(".tick").each(function(){
-        x.append("tick")
-            .attr("value", d3.select(this).select("text").text())
-            .text("값 " + d3.select(this).select("text").text() + (x_unit.length ? " 단위 " + x_unit : ""))
-    })
+    if(spec.marks[0].type === "grouped_bar"){
+        let nx = chart.select("#x-axis").selectAll(".tick").size()
+        let x = axes.append("axis").attr("id", "x").attr("text", nx +"개의 막대그룹이 있습니다.")
+        chart.select("#x-axis").selectAll(".tick").each(function(){
+            x.append("tick")
+                .attr("value", d3.select(this).select("text").text())
+                .text("값 " + d3.select(this).select("text").text() + (x_unit.length ? " 단위 " + x_unit : ""))
+        })
+    }
+    else{
+        let nx = chart.select("#x-axis").selectAll(".tick").size()
+        let x = axes.append("axis").attr("id", "x").attr("text", nx +"개의 막대가 있습니다.")
+        chart.select("#x-axis").selectAll(".tick").each(function(){
+            x.append("tick")
+                .attr("value", d3.select(this).select("text").text())
+                .text("값 " + d3.select(this).select("text").text() + (x_unit.length ? " 단위 " + x_unit : ""))
+        })
+    }
 
     let ny = chart.select("#y-axis").selectAll(".tick").size()
-    let y = axes.append("axis").attr("id", "y").attr("text", "y축에는 " + ny + "개의 표시가 있습니다.")
+    let ys = []
+    chart.select("#y-axis").selectAll(".tick").each(function(){
+        ys.push(+d3.select(this).select("text").text().replace(/,/g, ""))
+    })
+    let maxy = d3.max(ys)
+    console.log(ys)
+    let y = axes.append("axis").attr("id", "y").attr("text", "y축의 범위는 약 0부터 " + maxy + "까지입니다.")
     chart.select("#y-axis").selectAll(".tick").each(function(){
         y.append("tick")
             .attr("value", d3.select(this).select("text").text())
@@ -87,16 +112,21 @@ function convert(spec){
     // notables
     let notables = insights.append("notables").attr("text", "주목할 만한 데이터")
     
-    let bar_heights = spec.marks.map(d => {
-        if(d.type === "stacked_bar"){
-            return d.stacks.reduce((a, b) => a + b.value, 0)
-        }
-        else return d.bar.value
-    })
-    let max_ind = bar_heights.findIndex(d => d === d3.max(bar_heights))
-    let min_ind = bar_heights.findIndex(d => d === d3.min(bar_heights))
-    notables.append("extreme").attr("type", "max").text("가장 긴 막대는 " + (max_ind + 1) + "번 막대로 높이는 " + d3.max(bar_heights) + y_unit + "입니다.")
-    notables.append("extreme").attr("type", "min").text("가장 짧은 막대는 " + (min_ind + 1) + "번 막대로 높이는 " + d3.min(bar_heights) + y_unit + "입니다.")
+    if(spec.marks[0].type === "grouped_bar"){
+
+    }
+    else{
+        let bar_heights = spec.marks.map(d => {
+            if(d.type === "stacked_bar"){
+                return d.stacks.reduce((a, b) => a + b.value, 0)
+            }
+            else return d.bar.value
+        })
+        let max_ind = bar_heights.findIndex(d => d === d3.max(bar_heights))
+        let min_ind = bar_heights.findIndex(d => d === d3.min(bar_heights))
+        notables.append("extreme").attr("type", "max").text("가장 긴 막대는 " + (max_ind + 1) + "번 막대로 높이는 " + d3.max(bar_heights) + y_unit + "입니다.")
+        notables.append("extreme").attr("type", "min").text("가장 짧은 막대는 " + (min_ind + 1) + "번 막대로 높이는 " + d3.min(bar_heights) + y_unit + "입니다.")
+    }
 
     return cdg
 }
