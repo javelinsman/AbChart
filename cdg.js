@@ -95,7 +95,7 @@ function convert(spec){
         })
         if(spec.marks[0].groups[0].key){
             let subx = axes.append("axis").attr("id", "subx")
-                .text("그룹 내에는 " + spec.marks[0].groups.length + "개의 막대가 있습니다")
+                .attr("text", "그룹 내에는 " + spec.marks[0].groups.length + "개 씩의 막대가 있습니다")
             spec.marks[0].groups.forEach(d => {
                 subx.append("tick").text("값 " + d.key)
             })
