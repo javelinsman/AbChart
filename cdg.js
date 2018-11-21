@@ -27,6 +27,10 @@ function convert(spec){
             .text("색상 범례 " + (i + 1) + "번 이름 " + name)
         })
     }
+    let styles = meta.append("styles")
+    styles.append("width").attr("value", d3.select("#barchart").attr("width"))
+    styles.append("height").attr("value", d3.select("#barchart").attr("height"))
+    styles.append("gridline").attr("value", spec.meta.gridline? spec.meta.gridline : "none")
     /* Marks */
     spec.marks.forEach((d, i) => {
         let stacked = d.type === "stacked_bar"
@@ -41,7 +45,7 @@ function convert(spec){
                         + " " + (i+1) + "번째 막대더미"
                     )
             d.stacks.forEach((stack, j) => {
-                bar.append("stack")
+                let temp = bar.append("stack")
                     .text(
                         stack.value + y_unit 
                         + " " + (stack.color.name ? " "  + stack.color.name : "") 
@@ -49,6 +53,7 @@ function convert(spec){
                         + " " + d.key + x_unit
                         + (stack.color.name ? "" : " 색상 " + stack.color)
                     )
+                if(stack.label) temp.attr("datalabel", stack.label.position)
             })
         }
         else if(grouped){
@@ -56,7 +61,7 @@ function convert(spec){
                 .attr("text", d.key + x_unit
                     + " " + (i+1) + "번째 막대그룹")
             d.groups.forEach((bar, j) => {
-                bargroup.append("bar")
+                let temp = bargroup.append("bar")
                     .text(
                         bar.bar.value + y_unit 
                         + (bar.key ? " " + bar.key : "")
@@ -64,6 +69,7 @@ function convert(spec){
                         + " " + (j+1) + "번째 막대"
                         + (bar.bar.color.name ? "" : " 색상 " + bar.bar.color)
                     )
+                if(bar.bar.label) temp.attr("datalabel", bar.bar.label.position)
             })
         }
         else{
@@ -74,6 +80,8 @@ function convert(spec){
                     + " " + (i+1) + "번째 막대"
                     + (d.bar.color.name ? "" : " 색상 " + d.bar.color)
                 )
+            console.log(d.bar)
+            if(d.bar.label) bar.attr("datalabel", d.bar.label.poisition)
         }
     })
 
@@ -85,6 +93,12 @@ function convert(spec){
             x.append("tick")
                 .text("값 " + d3.select(this).select("text").text() + (x_unit.length ? " 단위 " + x_unit : ""))
         })
+        if(spec.marks[0].groups[0].key){
+            let subx = axes.append("subx")
+            spec.marks[0].groups.forEach(d => {
+                subx.append("tick").text(d.key)
+            })
+        }
     }
     else{
         let nx = chart.select("#x-axis").selectAll(".tick").size()
