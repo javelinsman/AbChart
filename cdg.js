@@ -94,9 +94,10 @@ function convert(spec){
                 .text("값 " + d3.select(this).select("text").text() + (x_unit.length ? " 단위 " + x_unit : ""))
         })
         if(spec.marks[0].groups[0].key){
-            let subx = axes.append("subx")
+            let subx = axes.append("axis").attr("id", "subx")
+                .text("그룹 내에는 " + spec.marks[0].groups.length + "개의 막대가 있습니다")
             spec.marks[0].groups.forEach(d => {
-                subx.append("tick").text(d.key)
+                subx.append("tick").text("값 " + d.key)
             })
         }
     }
